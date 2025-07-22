@@ -12,18 +12,20 @@
         <maven.compiler.source>23</maven.compiler.source>
         <maven.compiler.target>23</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <tomcat-embed-core.version>10.1.41</tomcat-embed-core.version>
+        <spring-webmvc.version>6.2.7</spring-webmvc.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <version>10.1.41</version>
+            <version>${tomcat-embed-core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>6.2.7</version>
+            <version>${spring-webmvc.version}</version>
         </dependency>
     </dependencies>
 
