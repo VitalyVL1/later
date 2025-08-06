@@ -3,9 +3,9 @@ package ru.practicum.item;
 import java.util.List;
 
 public interface ItemService {
-    List<Item> getItems(long id);
+    List<ItemDto> getItems(long id);
 
-    Item addNewItem(Long userId, Item item);
+    ItemDto addNewItem(long userId, ItemDto item);
 
     void deleteItem(long userId, long item);
 

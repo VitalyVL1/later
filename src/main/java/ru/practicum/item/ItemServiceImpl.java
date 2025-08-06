@@ -1,35 +1,32 @@
 package ru.practicum.item;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@Slf4j
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
 
-    public ItemServiceImpl() {
-        log.info("Creating ItemServiceImpl");
-        this.itemRepository = new ItemRepositoryImpl();
+    @Override
+    public List<ItemDto> getItems(long id) {
+        return ItemMapper.mapToDto(itemRepository.findByUserId(id));
     }
 
+    @Transactional
     @Override
-    public List<Item> getItems(long id) {
-        log.info("Getting items by id: " + id);
-        return itemRepository.findByUserId(id);
-    }
-
-    @Override
-    public Item addNewItem(Long userId, Item item) {
-        log.info("Adding new item: " + item);
-        return itemRepository.save(userId, item);
+    public ItemDto addNewItem(long userId, ItemDto itemDto) {
+        itemDto.setUserId(userId);
+        Item savedItem = itemRepository.save(ItemMapper.mapToItem(itemDto));
+        return ItemMapper.mapToDto(savedItem);
     }
 
     @Override
     public void deleteItem(long userId, long item) {
-        log.info("Deleting item: " + item);
-        itemRepository.deleteByUserIdAndItemId(userId, item);
+        itemRepository.deleteByUserIdAndId(userId, item);
     }
 }
