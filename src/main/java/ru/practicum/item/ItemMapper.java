@@ -44,13 +44,13 @@ public class ItemMapper {
 
     public static List<Item> mapToItem(List<ItemDto> dtos) {
         return dtos.stream()
-                .map(DTO_TO_ITEM::apply)
+                .map(DTO_TO_ITEM)
                 .toList();
     }
 
     public static List<ItemDto> mapToDto(List<Item> items) {
         return items.stream()
-                .map(ITEM_TO_DTO::apply)
+                .map(ITEM_TO_DTO)
                 .toList();
     }
 }
