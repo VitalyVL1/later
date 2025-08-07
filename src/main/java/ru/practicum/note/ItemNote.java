@@ -1,39 +1,37 @@
-package ru.practicum.user;
+package ru.practicum.note;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
+import ru.practicum.item.Item;
 
 import java.time.Instant;
 import java.util.Objects;
 
 @Entity
-@Table(name = "users")
+@Table(name = "item_notes")
 @Getter
 @Setter
-@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@ToString
+public class ItemNote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String email;
+    @Column(name = "text")
+    private String text;
 
-    @Column(name = "fist_name", nullable = false)
-    private String firstName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id")
+    @ToString.Exclude
+    private Item item;
 
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "registration_date")
-    private Instant registrationDate = Instant.now();
-
-    @Enumerated(EnumType.STRING)
-    private UserState state;
+    @Builder.Default
+    @Column(name = "note_date")
+    private Instant itemNoteDate = Instant.now();
 
     @Override
     public final boolean equals(Object object) {
@@ -42,8 +40,8 @@ public class User {
         Class<?> oEffectiveClass = object instanceof HibernateProxy proxy ? proxy.getHibernateLazyInitializer().getPersistentClass() : object.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy proxy ? proxy.getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        User user = (User) object;
-        return getId() != null && Objects.equals(getId(), user.getId());
+        ItemNote itemNote = (ItemNote) object;
+        return getId() != null && Objects.equals(getId(), itemNote.getId());
     }
 
     @Override

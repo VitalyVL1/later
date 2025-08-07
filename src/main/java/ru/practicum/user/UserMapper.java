@@ -12,8 +12,8 @@ import java.util.function.Function;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class UserMapper {
     // Экземпляры мапперов для использования
-    public static final Function<UserDto, User> DTO_TO_USER = new DtoToUserMapper();
-    public static final Function<User, UserDto> USER_TO_DTO = new UserToDtoMapper();
+    private static final Function<UserDto, User> DTO_TO_USER = new DtoToUserMapper();
+    private static final Function<User, UserDto> USER_TO_DTO = new UserToDtoMapper();
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy.MM.dd, HH:mm:ss")
@@ -60,13 +60,13 @@ public abstract class UserMapper {
 
     public static List<User> mapToUser(List<UserDto> dtos) {
         return dtos.stream()
-                .map(UserMapper::mapToUser)
+                .map(DTO_TO_USER)
                 .toList();
     }
 
     public static List<UserDto> mapToUserDto(List<User> users) {
         return users.stream()
-                .map(UserMapper::mapToUserDTO)
+                .map(USER_TO_DTO)
                 .toList();
     }
 

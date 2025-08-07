@@ -51,4 +51,13 @@ services:
           name VARCHAR(50),
           CONSTRAINT fk_tags_to_items FOREIGN KEY(item_id) REFERENCES items(id)
         );
+        
+        CREATE TABLE IF NOT EXISTS item_notes (
+          id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+          item_id BIGINT,
+          text VARCHAR(2000),
+          note_date TIMESTAMP,
+          CONSTRAINT fk_item_notes_to_items FOREIGN KEY(item_id) REFERENCES items(id)
+        );
+        
         EOSQL

@@ -4,6 +4,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.user.User;
+import ru.practicum.user.UserRepository;
 
 import java.util.List;
 import java.util.Set;
@@ -13,6 +15,7 @@ import java.util.Set;
 @Transactional(readOnly = true)
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
 
     @Override
     public List<ItemDto> getItems(long userId, Set<String> tags) {
@@ -25,8 +28,8 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     @Override
     public ItemDto addNewItem(long userId, ItemDto itemDto) {
-        itemDto.setUserId(userId);
-        Item savedItem = itemRepository.save(ItemMapper.mapToItem(itemDto));
+        User user = userRepository.getReferenceById(userId);
+        Item savedItem = itemRepository.save(ItemMapper.mapToItem(itemDto, user));
         return ItemMapper.mapToItemDto(savedItem);
     }
 

@@ -10,4 +10,6 @@ public interface ItemRepository extends JpaRepository<Item, Long>, QuerydslPredi
     List<Item> findByUserId(long userId);
 
     void deleteByUserIdAndId(long userId, long itemId);
+
+    List<Item> findAllByUserLastNameStartingWith(String lastNamePrefix);
 }
