@@ -29,6 +29,7 @@ public class Item {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "item_id"))
     @Column(name = "name")
+    @Builder.Default
     private Set<String> tags = new HashSet<>();
 
 }

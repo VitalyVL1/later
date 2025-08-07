@@ -3,6 +3,7 @@ package ru.practicum.item;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -38,7 +39,7 @@ public class ItemMapper {
         return DTO_TO_ITEM.apply(dto);
     }
 
-    public static ItemDto mapToDto(Item item) {
+    public static ItemDto mapToItemDto(Item item) {
         return ITEM_TO_DTO.apply(item);
     }
 
@@ -48,8 +49,16 @@ public class ItemMapper {
                 .toList();
     }
 
-    public static List<ItemDto> mapToDto(List<Item> items) {
+    public static List<ItemDto> mapToItemDto(List<Item> items) {
         return items.stream()
+                .map(ITEM_TO_DTO)
+                .toList();
+    }
+
+    public static List<ItemDto> mapToItemDto(Iterable<Item> items) {
+        List<Item> dtos = new ArrayList<>();
+        items.forEach(dtos::add);
+        return dtos.stream()
                 .map(ITEM_TO_DTO)
                 .toList();
     }

@@ -11,10 +11,10 @@ import java.util.List;
 public class ItemController {
     private final ItemService itemService;
 
-    @GetMapping
+/*    @GetMapping
     public List<ItemDto> get(@RequestHeader("X-Later-User-Id") long userId) {
         return itemService.getItems(userId);
-    }
+    }*/
 
     @PostMapping
     public ItemDto add(@RequestHeader("X-Later-User-Id") Long userId,
