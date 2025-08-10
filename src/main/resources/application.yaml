@@ -10,3 +10,9 @@ spring:
     password: "12345"
     url: "jdbc:postgresql://localhost:5432/later"
     driver-class-name: "org.postgresql.Driver"
+
+    # вывод запросов
+logging.level.org.hibernate:
+  SQL: DEBUG
+    # вывод значений, которые подставляются в параметры запросов
+  orm.jdbc.bind: trace

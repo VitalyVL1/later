@@ -19,7 +19,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> getItems(long userId, Set<String> tags) {
-        BooleanExpression byUserId = QItem.item.userId.eq(userId);
+        BooleanExpression byUserId = QItem.item.user.id.eq(userId);
         BooleanExpression byAnyTag = QItem.item.tags.any().in(tags);
         Iterable<Item> foundItems = itemRepository.findAll(byUserId.and(byAnyTag));
         return ItemMapper.mapToItemDto(foundItems);

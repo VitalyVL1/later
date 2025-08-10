@@ -27,7 +27,7 @@ public class ItemNoteMapper {
             return ItemNote.builder()
                     .id(itemNoteDto.getId())
                     .text(itemNoteDto.getText())
-                    .itemNoteDate(parseItemNoteDate(itemNoteDto.getItemNoteDate()))
+                    .itemNoteDate(parseItemNoteDate(itemNoteDto.getDateOfNote()))
                     .build();
         }
     }
@@ -39,7 +39,7 @@ public class ItemNoteMapper {
                     .id(itemNote.getId())
                     .itemId(itemNote.getItem().getId())
                     .text(itemNote.getText())
-                    .itemNoteDate(formatItemNoteDate(itemNote.getItemNoteDate()))
+                    .dateOfNote(formatItemNoteDate(itemNote.getItemNoteDate()))
                     .itemUrl(itemNote.getItem().getUrl())
                     .build();
         }

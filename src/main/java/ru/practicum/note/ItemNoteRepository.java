@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ItemNoteRepository extends JpaRepository<ItemNote, Long>, QuerydslPredicateExecutor<Item> {
 
-    List<ItemNote> findAllByUrlContainingAndItemUserId(String url, long userId);
+    List<ItemNote> findAllByItemUrlContainingAndItemUserId(String url, long userId);
 
     @Query("""
             select inote from ItemNote as inote

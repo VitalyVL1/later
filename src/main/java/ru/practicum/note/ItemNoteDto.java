@@ -12,6 +12,6 @@ public class ItemNoteDto {
     private Long id;
     private Long itemId;
     private String text;
-    private String itemNoteDate;
+    private String dateOfNote;
     private String itemUrl;
 }

@@ -29,6 +29,7 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
+    @Builder.Default
     @Column(name = "registration_date")
     private Instant registrationDate = Instant.now();
 
