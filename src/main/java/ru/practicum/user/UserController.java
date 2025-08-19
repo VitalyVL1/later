@@ -1,6 +1,7 @@
 package ru.practicum.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class UserController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public UserDto saveNewUser(@RequestBody UserDto dto) {
         return userService.saveUser(dto);
     }
