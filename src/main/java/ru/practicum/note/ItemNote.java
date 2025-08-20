@@ -3,7 +3,7 @@ package ru.practicum.note;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
-import ru.practicum.item.Item;
+import ru.practicum.item.model.Item;
 
 import java.time.Instant;
 import java.util.Objects;

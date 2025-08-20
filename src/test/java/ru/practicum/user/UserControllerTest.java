@@ -11,7 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import ru.practicum.CommonExceptionHandler;
+import ru.practicum.common.CommonExceptionHandler;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;

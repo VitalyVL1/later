@@ -15,4 +15,7 @@ public class UserDto {
     private String lastName;
     private String registrationDate;
     private UserState state;
+
+/*    @JsonFormat(pattern="dd.MM.YYYY")
+    private LocalDate dateOfBirth;*/ //для тренировки тестирования DTO
 }

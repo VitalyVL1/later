@@ -15,5 +15,8 @@ spring:
     # вывод запросов
 logging.level.org.hibernate:
   SQL: DEBUG
-    # вывод значений, которые подставляются в параметры запросов
+  # вывод значений, которые подставляются в параметры запросов
   orm.jdbc.bind: trace
+
+url-metadata-retriever:
+  read_timeout-sec: 120

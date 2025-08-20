@@ -1,10 +1,11 @@
-package ru.practicum.item;
+package ru.practicum.item.model;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 import ru.practicum.user.User;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -22,8 +23,9 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @ToString.Exclude
     private User user;
 
     @Column
@@ -34,6 +36,25 @@ public class Item {
     @Column(name = "name")
     @Builder.Default
     private Set<String> tags = new HashSet<>();
+
+    @Column(name = "resolved_url")
+    String resolvedUrl;
+
+    @Column(name = "mime_type")
+    String mimeType;
+
+    String title;
+
+    @Column(name = "has_image")
+    boolean hasImage;
+
+    @Column(name = "has_video")
+    boolean hasVideo;
+
+    @Column(name = "date_resolved")
+    Instant dateResolved;
+
+    private boolean unread = true;
 
     @Override
     public final boolean equals(Object object) {

@@ -3,8 +3,8 @@ package ru.practicum.note;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ru.practicum.item.Item;
 import ru.practicum.item.ItemRepository;
+import ru.practicum.item.model.Item;
 
 import java.util.List;
 

@@ -2,60 +2,56 @@ package ru.practicum.item;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import ru.practicum.item.dto.ItemDto;
+import ru.practicum.item.model.Item;
 import ru.practicum.user.User;
 
-import java.util.ArrayList;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.List;
-import java.util.function.Function;
+import java.util.Set;
+import java.util.stream.StreamSupport;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ItemMapper {
-    private static final DtoToItemMapper DTO_TO_ITEM = new DtoToItemMapper();
-    private static final ItemToDtoMapper ITEM_TO_DTO = new ItemToDtoMapper();
+final class ItemMapper {
+    private static final DateTimeFormatter dtFormatter = DateTimeFormatter
+            .ofPattern("yyyy.MM.dd hh:mm:ss")
+            .withZone(ZoneOffset.UTC);
 
-    public static class DtoToItemMapper implements Function<ItemDto, Item> {
-        @Override
-        public Item apply(ItemDto itemDTO) {
-            return Item.builder()
-                    .id(itemDTO.getId())
-                    .tags(itemDTO.getTags())
-                    .build();
-        }
-    }
-
-    public static class ItemToDtoMapper implements Function<Item, ItemDto> {
-        @Override
-        public ItemDto apply(Item item) {
-            return ItemDto.builder()
-                    .id(item.getId())
-                    .userId(item.getUser().getId())
-                    .tags(item.getTags())
-                    .build();
-        }
-    }
-
-    // Дополнительные методы для удобства
-    public static Item mapToItem(ItemDto dto, User user) {
-        Item item = DTO_TO_ITEM.apply(dto);
+    public static Item mapToItem(UrlMetaDataRetriever.UrlMetadata result, User user, Set<String> tags) {
+        Item item = new Item();
         item.setUser(user);
+        item.setUrl(result.getNormalUrl());
+        item.setResolvedUrl(result.getResolvedUrl());
+        item.setMimeType(result.getMimeType());
+        item.setTitle(result.getTitle());
+        item.setHasImage(result.isHasImage());
+        item.setHasVideo(result.isHasVideo());
+        item.setDateResolved(result.getDateResolved());
+        item.setTags(tags);
         return item;
     }
 
     public static ItemDto mapToItemDto(Item item) {
-        return ITEM_TO_DTO.apply(item);
-    }
-
-    public static List<ItemDto> mapToItemDto(List<Item> items) {
-        return items.stream()
-                .map(ITEM_TO_DTO)
-                .toList();
+        return ItemDto.builder()
+                .id(item.getId())
+                .title(item.getTitle())
+                .normalUrl(item.getUrl())
+                .resolvedUrl(item.getResolvedUrl())
+                .hasImage(item.isHasImage())
+                .hasVideo(item.isHasVideo())
+                .mimeType(item.getMimeType())
+                .unread(item.isUnread())
+                .dateResolved(dtFormatter.format(item.getDateResolved()))
+                // Нужно скопировать все элементы в новую коллекцию - чтобы запустить механизм ленивой загрузки.
+                .tags(new HashSet<>(item.getTags()))
+                .build();
     }
 
     public static List<ItemDto> mapToItemDto(Iterable<Item> items) {
-        List<Item> dtos = new ArrayList<>();
-        items.forEach(dtos::add);
-        return dtos.stream()
-                .map(ITEM_TO_DTO)
+        return StreamSupport.stream(items.spliterator(), false)
+                .map(ItemMapper::mapToItemDto)
                 .toList();
     }
 }

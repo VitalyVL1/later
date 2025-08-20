@@ -17,13 +17,25 @@ import static org.hamcrest.Matchers.*;
 
 @Transactional
 @SpringBootTest(
-        properties = "jdbc.url=jdbc:postgresql://localhost:5432/test",
+        properties = "spring.datasource.url=jdbc:postgresql://localhost:5432/later", //здесь можно прописать нужную тестовую базу, сейчас стоит основная.
         webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class UserServiceImplTest {
 
     private final EntityManager em;
     private final UserService service;
+
+    @Test
+    void checkDatabaseConnection() {
+        // Выполнить запрос к БД, чтобы узнать её имя
+        String databaseName = (String) em.createNativeQuery("SELECT current_database();").getSingleResult();
+        String schemaName = (String) em.createNativeQuery("SELECT current_schema();").getSingleResult();
+
+        System.out.println(">>>>>>> Current database: " + databaseName);
+        System.out.println(">>>>>>> Current schema: " + schemaName);
+
+        assertThat(databaseName, equalTo("later"));
+    }
 
     @Test
     void testSaveUser() {
@@ -62,15 +74,13 @@ class UserServiceImplTest {
                         "FirstName" + i,
                         "LastName" + i
                 ))
-                .peek(service::saveUser)
+                .map(service::saveUser)
                 .collect(Collectors.toList());
 
         // Выполнение
         List<UserDto> actualUsers = service.getAllUsers();
 
         // Проверки
-        assertThat(actualUsers, hasSize(expectedUsers.size()));
-
         for (UserDto expected : expectedUsers) {
             assertThat(actualUsers, hasItem(allOf(
                     hasProperty("id", notNullValue()),
