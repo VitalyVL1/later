@@ -38,21 +38,21 @@ public class Item {
     private Set<String> tags = new HashSet<>();
 
     @Column(name = "resolved_url")
-    String resolvedUrl;
+    private String resolvedUrl;
 
     @Column(name = "mime_type")
-    String mimeType;
+    private String mimeType;
 
-    String title;
+    private String title;
 
     @Column(name = "has_image")
-    boolean hasImage;
+    private boolean hasImage;
 
     @Column(name = "has_video")
-    boolean hasVideo;
+    private boolean hasVideo;
 
     @Column(name = "date_resolved")
-    Instant dateResolved;
+    private Instant dateResolved;
 
     private boolean unread = true;
 

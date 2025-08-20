@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.*;
 class UserServiceImplTest {
 
     private final EntityManager em;
-    private final UserService service;
+    private final UserService userService;
 
     @Test
     void checkDatabaseConnection() {
@@ -41,7 +41,7 @@ class UserServiceImplTest {
     void testSaveUser() {
         UserDto userDto = makeUserDto("some@email.com", "Пётр", "Иванов");
 
-        service.saveUser(userDto);
+        userService.saveUser(userDto);
 
         TypedQuery<User> query = em.createQuery("Select u from User u where u.email = :email", User.class);
         User user = query.setParameter("email", userDto.getEmail())
@@ -74,11 +74,11 @@ class UserServiceImplTest {
                         "FirstName" + i,
                         "LastName" + i
                 ))
-                .map(service::saveUser)
+                .map(userService::saveUser)
                 .collect(Collectors.toList());
 
         // Выполнение
-        List<UserDto> actualUsers = service.getAllUsers();
+        List<UserDto> actualUsers = userService.getAllUsers();
 
         // Проверки
         for (UserDto expected : expectedUsers) {
