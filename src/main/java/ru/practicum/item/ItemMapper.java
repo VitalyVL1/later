@@ -16,7 +16,7 @@ import java.util.stream.StreamSupport;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 final class ItemMapper {
     private static final DateTimeFormatter dtFormatter = DateTimeFormatter
-            .ofPattern("yyyy.MM.dd hh:mm:ss")
+            .ISO_INSTANT
             .withZone(ZoneOffset.UTC);
 
     public static Item mapToItem(UrlMetaDataRetriever.UrlMetadata result, User user, Set<String> tags) {
